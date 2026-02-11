@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SKConnect 地址发布页</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #0a9396, #02a982);
+      display: flex; justify-content: center; align-items: center;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      overflow: hidden; position: relative;
+    }
+    /* 浮动气泡动画 */
+    .bubble {
+      position: absolute; border-radius: 50%;
+      background: rgba(255,255,255,0.08);
+      animation: float linear infinite;
+    }
+    @keyframes float {
+      0%   { transform: translateY(100vh) scale(0); opacity: 0; }
+      10%  { opacity: 1; }
+      100% { transform: translateY(-20vh) scale(1); opacity: 0; }
+    }
+    .card {
+      background: #fff; border-radius: 16px; padding: 40px 32px;
+      max-width: 460px; width: 90%; text-align: center;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+      position: relative; z-index: 1;
+    }
+    .card h1 { font-size: 22px; color: #333; margin-bottom: 8px; }
+    .card .tip { font-size: 13px; color: #999; margin-bottom: 24px; }
+    .link-list { list-style: none; }
+    .link-list li { margin-bottom: 14px; }
+    .link-list a {
+      display: block; padding: 14px; border-radius: 10px;
+      background: #f0faf7; color: #02a982; text-decoration: none;
+      font-size: 15px; font-weight: 500;
+      transition: background .2s, transform .15s;
+    }
+    .link-list a:hover { background: #02a982; color: #fff; transform: scale(1.02); }
+    .footer { margin-top: 28px; font-size: 12px; color: #bbb; }
+  </style>
+</head>
+<body>
+
+  <!-- 气泡背景 -->
+  <script>
+    for (let i = 0; i < 15; i++) {
+      const b = document.createElement('div');
+      b.className = 'bubble';
+      const size = Math.random() * 80 + 20;
+      b.style.width = size + 'px';
+      b.style.height = size + 'px';
+      b.style.left = Math.random() * 100 + '%';
+      b.style.animationDuration = Math.random() * 8 + 6 + 's';
+      b.style.animationDelay = Math.random() * 5 + 's';
+      document.body.appendChild(b);
+    }
+  </script>
+
+  <div class="card">
+    <h1>SKConnect 地址发布页</h1>
+    <p class="tip">请收藏本页 (Ctrl+D)，以便随时获取最新地址</p>
+    <ul class="link-list">
+      <li><a id="link1" href="#">主站地址 - 加载中...</a></li>
+      <li><a id="link2" href="#">备用地址 - 加载中...</a></li>
+      <li><a href="https://t.me/your_group" target="_blank">Telegram 群组</a></li>
+    </ul>
+    <p class="footer">&copy; 2026 SKConnect All Rights Reserved</p>
+  </div>
+
+  <script>
+    // ====== 核心配置 ======
+    // 方式一：从远程 txt 文件获取域名列表（每行一个域名）
+    const DOMAIN_LIST_URL = 'https://your-domain.com/site.txt';
+    // 方式二：直接写死域名列表作为备用
+    const FALLBACK_DOMAINS = ['skconnect.top'];
+
+    function randomStr(len) {
+      const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
+      let s = '';
+      for (let i = 0; i < len; i++)
+        s += chars[Math.floor(Math.random() * chars.length)];
+      return s;
+    }
+
+    function setLinks(domains) {
+      const domain = domains[Math.floor(Math.random() * domains.length)];
+      const url1 = 'https://' + randomStr(3) + '.' + domain + '/#/login';
+      const url2 = 'https://' + randomStr(3) + '.' + domain + '/#/login';
+      const el1 = document.getElementById('link1');
+      const el2 = document.getElementById('link2');
+      el1.href = url1; el1.textContent = '主站地址 - ' + url1;
+      el2.href = url2; el2.textContent = '备用地址 - ' + url2;
+    }
+
+    fetch(DOMAIN_LIST_URL)
+      .then(r => r.text())
+      .then(text => {
+        const list = text.split('\n').map(s => s.trim()).filter(Boolean);
+        setLinks(list.length ? list : FALLBACK_DOMAINS);
+      })
+      .catch(() => setLinks(FALLBACK_DOMAINS));
+  </script>
+</body>
+</html>
