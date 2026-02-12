@@ -65,45 +65,11 @@
     <h1>SKConnect 地址发布页</h1>
     <p class="tip">请收藏本页 (Ctrl+D)，以便随时获取最新地址</p>
     <ul class="link-list">
-      <li><a id="link1" href="#">主站地址 - 加载中...</a></li>
-      <li><a id="link2" href="#">备用地址 - 加载中...</a></li>
-      <li><a href="https://t.me/your_group" target="_blank">Telegram 群组</a></li>
+      <li><a href="https://skconnect.top/#/login" target="_blank">主站地址 - skconnect.top</a></li>
+      <li><a href="https://web.shukevpn.com/" target="_blank">备用地址 - web.shukevpn.com</a></li>
+      <li><a href="https://t.me/shukejiasu" target="_blank">Telegram 群组 - @shukejiasu</a></li>
     </ul>
     <p class="footer">&copy; 2026 SKConnect All Rights Reserved</p>
   </div>
-
-  <script>
-    // ====== 核心配置 ======
-    // 方式一：从远程 txt 文件获取域名列表（每行一个域名）
-    const DOMAIN_LIST_URL = 'https://your-domain.com/site.txt';
-    // 方式二：直接写死域名列表作为备用
-    const FALLBACK_DOMAINS = ['skconnect.top'];
-
-    function randomStr(len) {
-      const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
-      let s = '';
-      for (let i = 0; i < len; i++)
-        s += chars[Math.floor(Math.random() * chars.length)];
-      return s;
-    }
-
-    function setLinks(domains) {
-      const domain = domains[Math.floor(Math.random() * domains.length)];
-      const url1 = 'https://' + randomStr(3) + '.' + domain + '/#/login';
-      const url2 = 'https://' + randomStr(3) + '.' + domain + '/#/login';
-      const el1 = document.getElementById('link1');
-      const el2 = document.getElementById('link2');
-      el1.href = url1; el1.textContent = '主站地址 - ' + url1;
-      el2.href = url2; el2.textContent = '备用地址 - ' + url2;
-    }
-
-    fetch(DOMAIN_LIST_URL)
-      .then(r => r.text())
-      .then(text => {
-        const list = text.split('\n').map(s => s.trim()).filter(Boolean);
-        setLinks(list.length ? list : FALLBACK_DOMAINS);
-      })
-      .catch(() => setLinks(FALLBACK_DOMAINS));
-  </script>
 </body>
 </html>
